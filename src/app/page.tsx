@@ -1,10 +1,21 @@
+import { redirect } from "next/navigation";
+import { switchPlayer } from "@/actions/players";
 import HuntCard from "@/components/HuntCard";
 import { CARDS, TOTAL_CARDS } from "@/lib/cards";
+import { getPlayerKey } from "@/lib/player-session";
+import { getPlayer } from "@/lib/players";
 
-// Hard-coded until milestone 4 reads the player's real finds from Firestore.
-const found = new Set<string>();
+// Reads the player cookie and Firestore, so it renders per request.
+export const instant = false;
 
-export default function Home() {
+export default async function Home() {
+  const nameKey = await getPlayerKey();
+  // A missing cookie, or a stale one for a deleted player, means join first.
+  const player = nameKey ? await getPlayer(nameKey) : null;
+  if (!player) redirect("/join");
+
+  const found = new Set(player.foundCardIds);
+
   return (
     <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-4 py-8">
       <header className="flex flex-col items-center gap-2 text-center">
@@ -21,6 +32,13 @@ export default function Home() {
         <p className="mt-2 rounded-full border border-stitch/40 bg-dusk/60 px-5 py-1.5 font-display text-xl text-stitch">
           {found.size} / {TOTAL_CARDS}
         </p>
+        <form action={switchPlayer} className="text-sm text-mist">
+          Hunting as <span className="font-bold text-moon">{player.username}</span>
+          {" · "}
+          <button type="submit" className="underline underline-offset-2 hover:text-stitch">
+            Not you?
+          </button>
+        </form>
       </header>
       <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
         {CARDS.map((card) => (
