@@ -1,9 +1,10 @@
 import "server-only";
 import { z } from "zod";
 
-// Server-only: validates secrets once, when this module is first imported, so a
-// missing or malformed variable fails loudly instead of surfacing as a confusing
-// Firebase error mid-request. Nothing here may be NEXT_PUBLIC_.
+// Server-only: validates secrets once, on first use, so a missing or malformed
+// variable fails loudly instead of surfacing as a confusing Firebase error. Lazy
+// rather than at import, because `next build` imports page modules and must not
+// need production secrets. Nothing here may be NEXT_PUBLIC_.
 
 // Copying .env.example leaves blank values (`KEY=""`); treat those as unset.
 const optionalString = z
@@ -56,4 +57,9 @@ function parseEnv(): Env {
   return result.data;
 }
 
-export const env = parseEnv();
+let cached: Env | undefined;
+
+export function getEnv(): Env {
+  cached ??= parseEnv();
+  return cached;
+}

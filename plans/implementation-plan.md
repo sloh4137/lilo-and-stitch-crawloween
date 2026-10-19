@@ -8,7 +8,7 @@ The repo is a fresh Create Next App scaffold under `src/app` (Next 16.4.2, React
 
 ## Decisions
 
-- **Identity: cookie `crawloween_player=<nameKey>`.** It's set by server actions (`createPlayer` / `selectPlayer`), lasts 30 days, uses `sameSite=lax`, and is not httpOnly. There's no auth. The join page has two paths: **New player** (shows an error if the name is taken) and **I'm already playing** (pick an existing name). Pages read the cookie on the server, so most of the UI is server-rendered and there's no browser-side identity code.
+- **Identity: cookie `crawloween_player=<nameKey>`.** It's set by server actions (`createPlayer` / `selectPlayer`), lasts 30 days, uses `sameSite=lax`, and is not httpOnly. There's no auth. The join page has two paths: **New player** (username + full name; shows an error if the username is taken) and **I'm already playing** (type your username; the app never lists players, so usernames have to be guessed rather than browsed). Pages read the cookie on the server, so most of the UI is server-rendered and there's no browser-side identity code.
 - **Claims go through a GET route handler,** not a page render: `/f/[slug]` claims the card and redirects to `/found/[cardId]?r=new|already`. The claim doesn't depend on JavaScript loading. It's idempotent, and link-preview bots can't claim because they have no cookie.
 - **Firestore is accessed from the server only,** using `firebase-admin`. Rules deny every browser read and write, and there's no Firebase client SDK.
 - **Card slugs are unguessable** (10 random chars) and live only in a `server-only` module.
@@ -19,13 +19,13 @@ The repo is a fresh Create Next App scaffold under `src/app` (Next 16.4.2, React
 
 ## Data model (Firestore)
 
-`players/{nameKey}`, where `nameKey` is the name lowercased, trimmed, and with spaces collapsed:
+`players/{nameKey}`, where `nameKey` is the username lowercased, trimmed, and with spaces collapsed. `username` is shown in the game (as typed); `fullName` appears only on the admin dashboard:
 
 ```
-{ displayName, createdAt, found: { [cardId]: Timestamp }, foundCount, lastFoundAt }
+{ username, fullName, createdAt, found: { [cardId]: Timestamp }, foundCount, lastFoundAt }
 ```
 
-- Name uniqueness comes from `docRef.create()`, which fails if the doc exists, giving "That name is taken".
+- Username uniqueness comes from `docRef.create()`, which fails if the doc exists, giving "That username is taken".
 - The claim transaction: if `found[cardId]` is missing, set it, increment `foundCount` and set `lastFoundAt`. It returns `new`, `already` or `no-player`.
 - Standings: read all players and sort by `foundCount` descending, then `lastFoundAt` ascending.
 
@@ -35,7 +35,7 @@ The repo is a fresh Create Next App scaffold under `src/app` (Next 16.4.2, React
 src/lib/firebase-admin.ts        // 'server-only'; init the admin app once (getApps() guard) from FIREBASE_PROJECT_ID / CLIENT_EMAIL / PRIVATE_KEY
 src/lib/cards.ts                 // public: [{ id, name, image, hint? }]
 src/lib/card-slugs.ts            // 'server-only'; { [slug]: cardId }, cardIdForSlug(), slugForCard()
-src/lib/names.ts                 // normalizeName(), validateName() (1–20 chars)
+src/lib/names.ts                 // normalizeUsername(), validateUsername() (1–20 chars), validateFullName() (1–50 chars)
 src/lib/player-session.ts        // 'server-only'; getPlayerKey() reads cookie; setPlayerCookie()/clearPlayerCookie()
 src/lib/admin-session.ts         // 'server-only'; sign/verify admin cookie, isAdmin()
 src/lib/players.ts               // 'server-only'; getPlayer(), listPlayers(), claim transaction (claimCardForPlayer)
