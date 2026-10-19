@@ -1,6 +1,7 @@
+import "server-only";
+
 // Server-only: the slugs are the secret part of each NFC tag URL (/f/<slug>).
-// Never import this from client code. The `server-only` guard arrives with the
-// dependency in milestone 3.
+// Never import this from client code.
 // Placeholder slugs; regenerate for the real tags in milestone 9 with:
 //   node -e "console.log(require('crypto').randomBytes(8).toString('base64url').slice(0, 10))"
 

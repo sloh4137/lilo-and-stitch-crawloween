@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Lilo & Stitch Crawl-o-ween
 
-## Getting Started
+A Halloween scavenger hunt. Printed Stitch pictures hide around the house, each with an NFC tag that opens a unique URL. Tapping a tag records the find for that player in Firestore and plays a celebration. See [`plans/implementation-plan.md`](plans/implementation-plan.md) for the full design.
 
-First, run the development server:
+Built with Next.js (App Router), Tailwind and `firebase-admin`, hosted on Vercel.
+
+## Setup
+
+### 1. Firebase
+
+1. Create a Firebase project and enable **Firestore**. Pick a region close to your Vercel function region (e.g. Firestore `us-east1` with Vercel `iad1`).
+2. Deploy the deny-all rules in [`firestore.rules`](firestore.rules), either by pasting them into the console (Firestore → Rules) or with `firebase deploy --only firestore:rules`. All access goes through `firebase-admin` on the server, which bypasses these rules; browsers get nothing.
+3. Create a service account key: Project settings → Service accounts → **Generate new private key**. Keep the downloaded JSON out of the repo.
+
+### 2. Environment variables
+
+Copy `.env.example` to `.env.local` and fill it in from the service account JSON:
+
+| Variable                | From the JSON  |
+| ----------------------- | -------------- |
+| `FIREBASE_PROJECT_ID`   | `project_id`   |
+| `FIREBASE_CLIENT_EMAIL` | `client_email` |
+| `FIREBASE_PRIVATE_KEY`  | `private_key`  |
+
+Paste `private_key` as-is, in double quotes, with its literal `\n` sequences; the app converts them to newlines. Never prefix any of these with `NEXT_PUBLIC_`.
+
+The variables are validated by [`src/lib/env.ts`](src/lib/env.ts) when the server first loads Firebase. A missing or malformed value throws an error that names the variable.
+
+To use the [Firestore emulator](https://firebase.google.com/docs/emulator-suite) instead, set `FIRESTORE_EMULATOR_HOST` (e.g. `127.0.0.1:8080`) and any `FIREBASE_PROJECT_ID`. The credentials can then be left blank.
+
+For Vercel, add the same variables under Project Settings → Environment Variables for **Production** and **Preview**.
+
+### 3. Run it
 
 ```bash
-npm run dev
-# or
+yarn install
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). To test from a phone on the same network, run `yarn dev -H 0.0.0.0` and open your computer's LAN IP.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Card slugs
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Each NFC tag URL is `/f/<slug>`, where the slug is a secret, unguessable string kept in the server-only [`src/lib/card-slugs.ts`](src/lib/card-slugs.ts). Generate one with:
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+node -e "console.log(require('crypto').randomBytes(8).toString('base64url').slice(0, 10))"
+```
