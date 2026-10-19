@@ -1,9 +1,13 @@
 import "server-only";
 import { FieldValue, type Timestamp } from "firebase-admin/firestore";
+import { connection } from "next/server";
 import { getDb } from "@/lib/firebase-admin";
 
 // Server-only data access for players/{nameKey}. Callers get plain objects
 // (no Firestore Timestamps), so results can be passed to Client Components.
+// Reads await connection() first: player data is per request, and the Firestore
+// client calls crypto.randomBytes, which Cache Components rejects while
+// prerendering.
 
 type PlayerDoc = {
   username: string;
@@ -38,11 +42,13 @@ function toPlayer(nameKey: string, data: PlayerDoc): Player {
 }
 
 export async function getPlayer(nameKey: string): Promise<Player | null> {
+  await connection();
   const snap = await players().doc(nameKey).get();
   return snap.exists ? toPlayer(nameKey, snap.data() as PlayerDoc) : null;
 }
 
 export async function listPlayers(): Promise<Player[]> {
+  await connection();
   const snap = await players().get();
   return snap.docs.map((doc) => toPlayer(doc.id, doc.data() as PlayerDoc));
 }
