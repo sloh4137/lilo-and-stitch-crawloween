@@ -3,6 +3,7 @@
 import { useActionState, useState } from "react";
 import { createPlayer, selectPlayer, type JoinState } from "@/actions/players";
 import { MAX_FULL_NAME_LENGTH, MAX_USERNAME_LENGTH } from "@/lib/names";
+import AnimatedButton from "@/components/AnimatedButton";
 
 type Tab = "new" | "existing";
 
@@ -93,9 +94,16 @@ export default function JoinForm({ next }: { next?: string }) {
               {newState.error}
             </p>
           )}
-          <button type="submit" disabled={creating} className={submitClass}>
+          <AnimatedButton
+            type="submit"
+            disabled={creating}
+            className={submitClass}
+            boopProps={{
+              scale: 1.05,
+            }}
+          >
             {creating ? "Joining…" : "Start hunting"}
-          </button>
+          </AnimatedButton>
         </form>
       ) : (
         <form action={selectAction} className="flex flex-col gap-3">
@@ -119,9 +127,16 @@ export default function JoinForm({ next }: { next?: string }) {
               {existingState.error}
             </p>
           )}
-          <button type="submit" disabled={selecting} className={submitClass}>
+          <AnimatedButton
+            type="submit"
+            disabled={selecting}
+            className={submitClass}
+            boopProps={{
+              scale: 1.05,
+            }}
+          >
             {selecting ? "Joining…" : "Keep hunting"}
-          </button>
+          </AnimatedButton>
         </form>
       )}
     </section>
