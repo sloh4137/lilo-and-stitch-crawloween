@@ -26,16 +26,20 @@ export default async function Home() {
           Crawl-o-ween
         </h1>
         <p className="max-w-sm text-mist">
-          Find every Stitch hiding around the house. Tap the tag on the back
-          when you spot one!
+          Find every Stitch hiding around the house. Tap it with your phone to
+          mark it as found!
         </p>
         <p className="mt-2 rounded-full border border-stitch/40 bg-dusk/60 px-5 py-1.5 font-display text-xl text-stitch">
           {found.size} / {TOTAL_CARDS}
         </p>
         <form action={switchPlayer} className="text-sm text-mist">
-          Hunting as <span className="font-bold text-moon">{player.username}</span>
+          Hunting as{" "}
+          <span className="font-bold text-moon">{player.username}</span>
           {" · "}
-          <button type="submit" className="underline underline-offset-2 hover:text-stitch">
+          <button
+            type="submit"
+            className="underline underline-offset-2 hover:text-stitch cursor-pointer"
+          >
             Not you?
           </button>
         </form>

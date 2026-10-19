@@ -7,7 +7,7 @@ import { MAX_FULL_NAME_LENGTH, MAX_USERNAME_LENGTH } from "@/lib/names";
 type Tab = "new" | "existing";
 
 const tabClass = (active: boolean) =>
-  `flex-1 rounded-full px-4 py-2 font-display text-base transition-colors ${
+  `flex-1 rounded-full px-4 py-2 font-display text-base transition-colors cursor-pointer ${
     active ? "bg-stitch text-night" : "text-mist hover:text-moon"
   }`;
 
@@ -15,12 +15,18 @@ const inputClass =
   "w-full rounded-xl border border-mist/25 bg-night/70 px-4 py-3 text-lg text-moon placeholder:text-mist/50 focus:border-stitch focus:outline-none";
 
 const submitClass =
-  "rounded-full bg-pumpkin px-6 py-3 font-display text-lg text-night transition-opacity disabled:opacity-60";
+  "rounded-full bg-pumpkin px-6 py-3 font-display text-lg text-night transition-opacity disabled:opacity-60 cursor-pointer";
 
 export default function JoinForm({ next }: { next?: string }) {
   const [tab, setTab] = useState<Tab>("new");
-  const [newState, createAction, creating] = useActionState(createPlayer, {} as JoinState);
-  const [existingState, selectAction, selecting] = useActionState(selectPlayer, {} as JoinState);
+  const [newState, createAction, creating] = useActionState(
+    createPlayer,
+    {} as JoinState,
+  );
+  const [existingState, selectAction, selecting] = useActionState(
+    selectPlayer,
+    {} as JoinState,
+  );
 
   return (
     <section className="flex flex-col gap-5 rounded-3xl border border-mist/15 bg-dusk/60 p-5">
