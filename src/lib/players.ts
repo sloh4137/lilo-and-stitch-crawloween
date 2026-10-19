@@ -72,3 +72,23 @@ export async function insertPlayer(
     throw error;
   }
 }
+
+export type ClaimResult = "new" | "already" | "no-player";
+
+// Records a find once. The transaction re-reads the doc if another write lands
+// first, so double taps and retries can't count the same card twice.
+export async function claimCardForPlayer(nameKey: string, cardId: string): Promise<ClaimResult> {
+  const db = getDb();
+  const ref = players().doc(nameKey);
+  return db.runTransaction(async (tx) => {
+    const snap = await tx.get(ref);
+    if (!snap.exists) return "no-player";
+    if ((snap.data() as PlayerDoc).found?.[cardId]) return "already";
+    tx.update(ref, {
+      [`found.${cardId}`]: FieldValue.serverTimestamp(),
+      foundCount: FieldValue.increment(1),
+      lastFoundAt: FieldValue.serverTimestamp(),
+    });
+    return "new";
+  });
+}
