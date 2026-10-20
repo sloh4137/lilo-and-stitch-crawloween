@@ -1,7 +1,13 @@
 import Image from "next/image";
 import type { Card } from "@/lib/cards";
 
-export default function HuntCard({ card, found }: { card: Card; found: boolean }) {
+export default function HuntCard({
+  card,
+  found,
+}: {
+  card: Card;
+  found: boolean;
+}) {
   return (
     <li
       className={`flex flex-col items-center gap-2 rounded-2xl border p-3 text-center ${
@@ -17,10 +23,9 @@ export default function HuntCard({ card, found }: { card: Card; found: boolean }
         width={320}
         height={320}
         sizes="(min-width: 768px) 12rem, 45vw"
+        loading="eager"
         className={`aspect-square w-full ${
-          found
-            ? ""
-            : "brightness-0 drop-shadow-[0_0_6px_rgb(63_196_214/0.55)]"
+          found ? "" : "brightness-0 drop-shadow-[0_0_6px_rgb(63_196_214/0.55)]"
         }`}
       />
       <p

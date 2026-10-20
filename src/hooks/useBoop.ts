@@ -24,7 +24,7 @@ export default function useBoop({
     friction: 10,
   },
   disabled = false,
-}: BoopProps): [{}, () => void] {
+}: BoopProps): [object, () => void] {
   const [isBooped, setIsBooped] = React.useState(false);
   const style = useSpring({
     transform: isBooped
@@ -47,7 +47,7 @@ export default function useBoop({
     return () => {
       window.clearTimeout(timeoutId);
     };
-  }, [isBooped]);
+  }, [isBooped, timing]);
   const trigger = React.useCallback(() => {
     setIsBooped(true);
   }, []);

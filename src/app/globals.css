@@ -29,6 +29,56 @@
   --font-spooky: var(--font-creepster);
 }
 
+/* Found-page animations. Use with motion-safe: so reduced motion gets a static page. */
+@theme {
+  /* Stitch pops in, then wiggles once it lands. */
+  --animate-pop-wiggle: pop 500ms cubic-bezier(0.34, 1.56, 0.64, 1) both,
+    wiggle 700ms ease-in-out 500ms;
+  --animate-pop: pop 500ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-rise: rise 450ms ease-out both;
+
+  @keyframes pop {
+    from {
+      opacity: 0;
+      transform: scale(0.3) rotate(-12deg);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+  }
+
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
+    20% {
+      transform: rotate(-8deg);
+    }
+    40% {
+      transform: rotate(7deg);
+    }
+    60% {
+      transform: rotate(-5deg);
+    }
+    80% {
+      transform: rotate(3deg);
+    }
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(0.75rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
 body {
   background-color: var(--night);
   background-image:
