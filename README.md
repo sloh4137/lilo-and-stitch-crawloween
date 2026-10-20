@@ -28,6 +28,15 @@ The variables are validated by [`src/lib/env.ts`](src/lib/env.ts) when the serve
 
 To use the [Firestore emulator](https://firebase.google.com/docs/emulator-suite) instead, set `FIRESTORE_EMULATOR_HOST` (e.g. `127.0.0.1:8080`) and any `FIREBASE_PROJECT_ID`. The credentials can then be left blank.
 
+The admin dashboard at `/admin` needs two more:
+
+| Variable              | Value                                                                                           |
+| --------------------- | ----------------------------------------------------------------------------------------------- |
+| `ADMIN_PASSCODE`      | A passcode for the hosts                                                                        |
+| `ADMIN_COOKIE_SECRET` | 32+ random characters: `node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"` |
+
+The secret signs the admin login cookie; changing it logs every admin out.
+
 For Vercel, add the same variables under Project Settings → Environment Variables for **Production** and **Preview**.
 
 ### 3. Run it

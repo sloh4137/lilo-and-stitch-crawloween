@@ -47,8 +47,20 @@ const envSchema = z
 
 export type Env = z.infer<typeof envSchema>;
 
-function parseEnv(): Env {
-  const result = envSchema.safeParse(process.env);
+// Admin secrets are separate so the login page works (and fails clearly) on its
+// own, without needing Firebase configured.
+const adminEnvSchema = z.object({
+  ADMIN_PASSCODE: z.string().trim().min(1, "is required"),
+  ADMIN_COOKIE_SECRET: z
+    .string()
+    .trim()
+    .min(32, "must be at least 32 characters (generate one, see .env.example)"),
+});
+
+export type AdminEnv = z.infer<typeof adminEnvSchema>;
+
+function parseEnv<T extends z.ZodType>(schema: T): z.infer<T> {
+  const result = schema.safeParse(process.env);
   if (!result.success) {
     throw new Error(
       `Invalid environment variables (see .env.example):\n${z.prettifyError(result.error)}`,
@@ -58,8 +70,14 @@ function parseEnv(): Env {
 }
 
 let cached: Env | undefined;
+let cachedAdmin: AdminEnv | undefined;
 
 export function getEnv(): Env {
-  cached ??= parseEnv();
+  cached ??= parseEnv(envSchema);
   return cached;
+}
+
+export function getAdminEnv(): AdminEnv {
+  cachedAdmin ??= parseEnv(adminEnvSchema);
+  return cachedAdmin;
 }

@@ -50,7 +50,9 @@ src/app/found/[cardId]/page.tsx  // server: verify player has found it (else red
 src/app/admin/page.tsx           // server: isAdmin() or redirect /admin/login; standings + card NFC URL list with copy buttons
 src/app/admin/DeletePlayerButton.tsx // client: confirm("Delete Lilo and their 5 finds?") → deletePlayer action → refresh()
 src/app/admin/AutoRefresh.tsx    // client: router.refresh() every 30s while tab visible
-src/app/admin/login/page.tsx     // passcode form
+src/app/admin/CopyButton.tsx     // client: copies an NFC tag URL to the clipboard
+src/app/admin/login/LoginForm.tsx // client: passcode form (useActionState) → adminLogin
+src/app/admin/login/page.tsx     // server: already admin → redirect /admin; renders LoginForm
 firestore.rules                  // deny all
 .env.example
 ```

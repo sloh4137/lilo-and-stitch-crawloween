@@ -53,6 +53,18 @@ export async function listPlayers(): Promise<Player[]> {
   return snap.docs.map((doc) => toPlayer(doc.id, doc.data() as PlayerDoc));
 }
 
+// Most finds first; ties go to whoever reached that count earliest. Players
+// with no finds come last, alphabetically.
+export async function listStandings(): Promise<Player[]> {
+  const all = await listPlayers();
+  return all.sort(
+    (a, b) =>
+      b.foundCount - a.foundCount ||
+      (a.lastFoundAt ?? Infinity) - (b.lastFoundAt ?? Infinity) ||
+      a.nameKey.localeCompare(b.nameKey),
+  );
+}
+
 // gRPC status ALREADY_EXISTS, thrown by create() when the doc is already there.
 const ALREADY_EXISTS = 6;
 
