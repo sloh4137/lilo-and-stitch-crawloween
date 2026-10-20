@@ -49,8 +49,11 @@ src/app/f/[slug]/route.ts        // GET: validate slug (404 if bad) → no playe
 src/app/found/[cardId]/page.tsx  // server: verify player has found it (else redirect /); renders <Celebration> (r=new) or "Already found"; "Ohana!" finale at total
 src/app/admin/page.tsx           // server: isAdmin() or redirect /admin/login; standings + card NFC URL list with copy buttons
 src/app/admin/DeletePlayerButton.tsx // client: confirm("Delete Lilo and their 5 finds?") → deletePlayer action → refresh()
-src/app/admin/AutoRefresh.tsx    // client: router.refresh() every 30s while tab visible
-src/app/admin/login/page.tsx     // passcode form
+src/app/admin/RefreshButton.tsx  // client: router.refresh() on click; shows the last refreshed time
+src/app/admin/StandingsList.tsx  // client: standings rows; react-spring FLIP animation when the order changes
+src/app/admin/CopyButton.tsx     // client: copies an NFC tag URL to the clipboard
+src/app/admin/login/LoginForm.tsx // client: passcode form (useActionState) → adminLogin
+src/app/admin/login/page.tsx     // server: already admin → redirect /admin; renders LoginForm
 firestore.rules                  // deny all
 .env.example
 ```
@@ -98,7 +101,7 @@ Dependencies to add: `firebase-admin`, `canvas-confetti` (+ `@types/canvas-confe
 - **Region:** put the Vercel function region in the same region as the Firestore database, for example Firestore `us-east1` with Vercel `iad1`, set in Project Settings → Functions. Each tap makes about 2 Firestore round-trips, so a mismatch adds visible delay.
 - **Cold starts:** `firebase-admin` adds roughly 300–800ms to the first request on a cold instance. Initialize it once at module scope. Fluid compute reuses warm instances, so under party traffic most taps should be warm.
 - **Secrets:** in Vercel env vars (Production + Preview), never in `NEXT_PUBLIC_*`. Locally they go in `.env.local`.
-- **Cost:** the Vercel Hobby plan and Firestore's free Spark plan (50k reads and 20k writes per day) cover this. The admin page reads every player doc on each refresh, about 30 reads per refresh at 30 players, so it polls every 30s and only while the tab is visible. That stays well under quota.
+- **Cost:** the Vercel Hobby plan and Firestore's free Spark plan (50k reads and 20k writes per day) cover this. The admin page reads every player doc on each refresh, about 30 reads per refresh at 30 players, so it refreshes only when a host presses Refresh rather than polling. That stays well under quota.
 - **Local:** `yarn dev` runs the same server code in local Node, pointed at the real project or the Firestore emulator (`FIRESTORE_EMULATOR_HOST`). Use `next dev -H 0.0.0.0` to test from a phone on the LAN.
 
 ## Setup notes (README)
@@ -118,7 +121,7 @@ Each commit builds (`yarn lint && yarn build`) and can be reviewed on its own. C
 4. **Players + join flow.** Add `names.ts`, `player-session.ts`, the read side of `players.ts`, the `createPlayer`/`selectPlayer`/`switchPlayer` actions, and the `/join` page. The hunt page reads the cookie and real player data. _Review: name uniqueness via `create()`, cookie options, the `?next=` redirect only allowing same-site paths._
 5. **Claim flow.** Add the `claimCardForPlayer` transaction, the `/f/[slug]` route handler, and the `/found/[cardId]` page with plain "Found!" / "Already found" text, no animation yet. _Review: transaction logic, slug validation, stale-cookie handling, curl tests from Verification._
 6. **Celebration.** Add `canvas-confetti`, `Celebration.tsx`, the Stitch animation and the "Ohana!" finale. _Review: feel on a real phone, reduced-motion fallback._
-7. **Admin auth + standings.** Add `admin-session.ts`, the login/logout actions, `/admin/login`, and `/admin` with sorted standings, `AutoRefresh` and the card NFC URL list. _Review: HMAC cookie, every admin entry point checks `isAdmin()`._
+7. **Admin auth + standings.** Add `admin-session.ts`, the login/logout actions, `/admin/login`, and `/admin` with sorted standings, a Refresh button with the last refreshed time, an animated reorder of the standings, and the card NFC URL list. _Review: HMAC cookie, every admin entry point checks `isAdmin()`._
 8. **Admin delete player.** Add the `deletePlayer` action and `DeletePlayerButton` with a confirm step. _Review: the auth check is inside the action, and the deleted player's phone recovers cleanly._
 9. **Real content + deploy notes.** Add the final Stitch images, real slugs and hints, the Vercel region note, and the NFC writing guide in the README.
 
@@ -129,7 +132,7 @@ Each commit builds (`yarn lint && yarn build`) and can be reviewed on its own. C
   - Join as "Lilo", then try "lilo " as a new player: it shows the taken error. "I'm already playing" → Lilo sets the cookie.
   - `curl -i /f/<slug>` without a cookie gets a 307 to `/join?next=…`. With the cookie it gets a 307 to `/found/<id>?r=new`, and the second time `?r=already`. `foundCount` only increments once.
   - A fresh private window going through the full tap flow records the find. A bogus `/f/xyz` returns 404.
-  - `/admin` redirects to login. A wrong passcode shows an error. The right one shows standings in the correct order and updates within 30s.
+  - `/admin` redirects to login. A wrong passcode shows an error. The right one shows standings in the correct order. After another find, Refresh updates the time and animates any rows that change places.
   - Delete a player from the admin page: they disappear from standings, and their next tap or hunt-page visit sends them to `/join`, where the name can be claimed again. A `curl` POST to the delete action without the admin cookie does nothing.
   - grep `.next/static` for one of the slugs: no matches.
 - Deploy a Vercel preview with env vars and tap a real NFC tag on iPhone and Android.
