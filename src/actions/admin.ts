@@ -1,7 +1,15 @@
 "use server";
 
+import { refresh } from "next/cache";
 import { redirect } from "next/navigation";
-import { checkPasscode, clearAdminCookie, setAdminCookie } from "@/lib/admin-session";
+import {
+  checkPasscode,
+  clearAdminCookie,
+  isAdmin,
+  setAdminCookie,
+} from "@/lib/admin-session";
+import { isNameKey } from "@/lib/names";
+import { removePlayer } from "@/lib/players";
 
 // Server actions are public POST endpoints. Any action here that reads or
 // changes data must check isAdmin() itself, not rely on the page that shows it.
@@ -26,4 +34,16 @@ export async function adminLogin(
 export async function adminLogout(): Promise<void> {
   await clearAdminCookie();
   redirect("/admin/login");
+}
+
+// Frees the username for someone else to claim. The argument comes straight
+// from the request, so it's validated like any other input.
+export async function deletePlayer(nameKey: string): Promise<void> {
+  if (!(await isAdmin())) throw new Error("Unauthorized");
+  if (typeof nameKey !== "string" || !isNameKey(nameKey)) {
+    throw new Error("Invalid player");
+  }
+
+  await removePlayer(nameKey);
+  refresh();
 }

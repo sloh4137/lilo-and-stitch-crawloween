@@ -25,5 +25,7 @@ export function cardIdForSlug(slug: string): string | undefined {
 }
 
 export function slugForCard(cardId: string): string | undefined {
-  return Object.keys(SLUG_TO_CARD).find((slug) => SLUG_TO_CARD[slug] === cardId);
+  return Object.keys(SLUG_TO_CARD).find(
+    (slug) => SLUG_TO_CARD[slug] === cardId,
+  );
 }

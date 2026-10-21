@@ -110,3 +110,9 @@ export async function claimCardForPlayer(nameKey: string, cardId: string): Promi
     return "new";
   });
 }
+
+// Deleting a missing doc is a no-op, so a repeated delete is harmless. The
+// player's cookie goes stale, and their next request sends them to /join.
+export async function removePlayer(nameKey: string): Promise<void> {
+  await players().doc(nameKey).delete();
+}
