@@ -3,6 +3,7 @@
 import { useEffect, useLayoutEffect, useRef, type RefObject } from "react";
 import { animated, useReducedMotion, useSpring } from "@react-spring/web";
 import type { Player } from "@/lib/players";
+import DeletePlayerButton from "./DeletePlayerButton";
 
 function timeAgo(ms: number, now: number): string {
   const minutes = Math.floor((now - ms) / 60_000);
@@ -115,6 +116,11 @@ function StandingRow({
           <p className="text-xs text-mist/80">{timeAgo(player.lastFoundAt, now)}</p>
         )}
       </div>
+      <DeletePlayerButton
+        nameKey={player.nameKey}
+        username={player.username}
+        foundCount={player.foundCount}
+      />
     </animated.li>
   );
 }
