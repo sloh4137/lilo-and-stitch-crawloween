@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
+import Link from "next/link";
 import { adminLogout } from "@/actions/admin";
 import { requireAdmin } from "@/lib/admin-session";
 import { slugForCard } from "@/lib/card-slugs";
@@ -51,14 +52,23 @@ export default async function AdminPage() {
           {standings.length} {standings.length === 1 ? "player" : "players"}
         </p>
         <RefreshButton refreshedAt={now} />
-        <form action={adminLogout}>
-          <button
-            type="submit"
-            className="text-sm text-mist underline underline-offset-2 hover:text-stitch cursor-pointer"
+        <div className="flex items-center gap-2 text-sm text-mist">
+          <Link
+            href="/"
+            className="underline underline-offset-2 hover:text-stitch"
           >
-            Log out
-          </button>
-        </form>
+            Back to the hunt
+          </Link>
+          <span aria-hidden>·</span>
+          <form action={adminLogout}>
+            <button
+              type="submit"
+              className="underline underline-offset-2 hover:text-stitch cursor-pointer"
+            >
+              Log out
+            </button>
+          </form>
+        </div>
       </header>
 
       {/* Solid bg-dusk to match the rows, which need an opaque background to
