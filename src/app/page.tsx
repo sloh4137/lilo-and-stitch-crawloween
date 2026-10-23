@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import { switchPlayer } from "@/actions/players";
 import HuntCard from "@/components/HuntCard";
@@ -25,10 +26,27 @@ export default async function Home() {
         <h1 className="font-spooky text-5xl leading-none text-pumpkin sm:text-6xl">
           Crawl-o-ween
         </h1>
-        <p className="max-w-sm text-mist">
-          Dr. Jumba Jookiba's experiments have escaped! Help us find each one
-          around the house by tapping them with your phone to capture them.
-        </p>
+        <figure className="relative mt-2 w-full max-w-md overflow-hidden rounded-3xl border border-stitch/40 shadow-[0_0_28px_rgb(63_196_214/0.3)] motion-safe:animate-rise">
+          <Image
+            src="/jumba.webp"
+            alt="Dr. Jumba Jookiba grinning in front of his experiment pods"
+            width={1000}
+            height={592}
+            sizes="(min-width: 640px) 28rem, 100vw"
+            loading="eager"
+            fetchPriority="high"
+            className="w-full"
+          />
+          <span className="absolute top-3 left-3 rounded-full bg-hibiscus px-3 py-1 font-display text-xs tracking-wider text-night uppercase shadow-lg motion-safe:animate-pulse">
+            Containment breach!
+          </span>
+          {/* Fade the bottom of the still into the card so the caption reads. */}
+          <figcaption className="absolute inset-x-0 bottom-0 bg-linear-to-t from-night via-night/85 to-transparent px-4 pt-12 pb-3 text-left text-sm text-moon sm:text-base">
+            Dr. Jumba Jookiba&apos;s experiments have escaped! Help us find
+            each one around the house by tapping them with your phone to
+            capture them.
+          </figcaption>
+        </figure>
         <p className="mt-2 rounded-full border border-stitch/40 bg-dusk/60 px-5 py-1.5 font-display text-xl text-stitch">
           {found.size} / {TOTAL_CARDS}
         </p>
