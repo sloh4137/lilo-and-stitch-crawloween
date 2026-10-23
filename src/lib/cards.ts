@@ -11,7 +11,6 @@ export type Card = {
   power: string;
 };
 
-// Placeholder content; final images, names and hints land in milestone 9.
 export const CARDS: Card[] = [
   {
     id: "626_stitch",
