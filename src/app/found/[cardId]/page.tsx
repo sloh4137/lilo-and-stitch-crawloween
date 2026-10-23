@@ -52,7 +52,8 @@ export default async function FoundPage({ params, searchParams }: PageProps<"/fo
         </>
       )}
       <Link
-        href="/"
+        // A fresh capture flips its card over on the home page.
+        href={r === "new" ? `/?flip=${card.id}` : "/"}
         className="rounded-full bg-pumpkin px-6 py-3 font-display text-lg text-night motion-safe:animate-rise"
         style={{ animationDelay: r === "new" ? "700ms" : "150ms" }}
       >
