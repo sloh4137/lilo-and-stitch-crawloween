@@ -24,8 +24,13 @@ export default function HuntCard({
         height={320}
         sizes="(min-width: 768px) 12rem, 45vw"
         loading="eager"
+        // The drag ghost and long-press menu show the unfiltered image, so
+        // keep unfound ones from being dragged, selected or opened.
+        draggable={found}
         className={`aspect-square w-full object-contain ${
-          found ? "" : "brightness-0 drop-shadow-[0_0_6px_rgb(63_196_214/0.55)]"
+          found
+            ? ""
+            : "pointer-events-none select-none brightness-0 drop-shadow-[0_0_6px_rgb(63_196_214/0.55)] [-webkit-touch-callout:none]"
         }`}
       />
       <p
