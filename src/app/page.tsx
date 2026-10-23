@@ -26,8 +26,8 @@ export default async function Home() {
           Crawl-o-ween
         </h1>
         <p className="max-w-sm text-mist">
-          Find every Stitch hiding around the house. Tap it with your phone to
-          mark it as found!
+          Dr. Jumba Jookiba's experiments have escaped! Help us find each one
+          around the house by tapping them with your phone to capture them.
         </p>
         <p className="mt-2 rounded-full border border-stitch/40 bg-dusk/60 px-5 py-1.5 font-display text-xl text-stitch">
           {found.size} / {TOTAL_CARDS}

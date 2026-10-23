@@ -24,7 +24,7 @@ export default function HuntCard({
         height={320}
         sizes="(min-width: 768px) 12rem, 45vw"
         loading="eager"
-        className={`aspect-square w-full ${
+        className={`aspect-square w-full object-contain ${
           found ? "" : "brightness-0 drop-shadow-[0_0_6px_rgb(63_196_214/0.55)]"
         }`}
       />

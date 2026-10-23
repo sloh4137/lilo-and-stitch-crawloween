@@ -40,7 +40,7 @@ export default async function FoundPage({ params, searchParams }: PageProps<"/fo
             height={320}
             sizes="16rem"
             priority
-            className="aspect-square w-64 motion-safe:animate-rise"
+            className="aspect-square w-64 object-contain motion-safe:animate-rise"
           />
           <h1 className="font-display text-3xl leading-tight text-moon">
             You already found {card.name}

@@ -39,7 +39,7 @@ export const CARDS: Card[] = [
     name: "Experiment 221 Sparky",
     image: "/stitch/221_Sparky.webp",
     power: "Mischievous and supercharged with electricity",
-    home: "Powering the lighthouse",
+    home: "Powering the Kilauea Lighthouse",
   },
   {
     id: "601_kixx",
