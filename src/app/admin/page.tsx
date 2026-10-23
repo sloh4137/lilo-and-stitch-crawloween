@@ -24,7 +24,8 @@ async function siteOrigin(): Promise<string> {
   const h = await headers();
   const host = h.get("x-forwarded-host") ?? h.get("host") ?? "localhost:3000";
   const proto =
-    h.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
+    h.get("x-forwarded-proto") ??
+    (host.startsWith("localhost") ? "http" : "https");
   return `${proto}://${host}`;
 }
 
@@ -37,7 +38,10 @@ async function loadStandings() {
 
 export default async function AdminPage() {
   await requireAdmin();
-  const [{ standings, now }, origin] = await Promise.all([loadStandings(), siteOrigin()]);
+  const [{ standings, now }, origin] = await Promise.all([
+    loadStandings(),
+    siteOrigin(),
+  ]);
 
   return (
     <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 px-4 py-8">
@@ -84,8 +88,8 @@ export default async function AdminPage() {
       <section className="flex flex-col gap-3">
         <h2 className="font-display text-2xl text-moon">NFC tag URLs</h2>
         <p className="text-sm text-mist">
-          Write each one to its tag as an NDEF URL record. Keep them secret: anyone
-          with a URL can claim that Stitch.
+          Write each one to its tag as an NDEF URL record. Keep them secret:
+          anyone with a URL can claim that experiment.
         </p>
         <ul className="flex flex-col gap-2">
           {CARDS.map((card) => {

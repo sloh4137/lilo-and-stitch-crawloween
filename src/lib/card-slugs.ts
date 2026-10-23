@@ -6,18 +6,18 @@ import "server-only";
 //   node -e "console.log(require('crypto').randomBytes(8).toString('base64url').slice(0, 10))"
 
 const SLUG_TO_CARD: Record<string, string> = {
-  PAX8bTHp01: "classic",
-  BLqVWix1TA: "surfer",
-  "WRW8dHC-Le": "hula",
-  jpqZ2if8Xb: "elvis",
-  GsM4qD0Eyn: "pumpkin",
-  cTwN6G1eYO: "vampire",
-  T7Tgd_8p_a: "ghost",
-  r9KyhbKc_u: "mummy",
-  yNmSKoU26Y: "witch",
-  ZqEDaY6_Er: "ukulele",
-  xmzZ4eyuTw: "sleepy",
-  u3I6_pauoL: "angel",
+  PAX8bTHp01: "626_stitch",
+  BLqVWix1TA: "624_angel",
+  "WRW8dHC-Le": "625_reuben",
+  jpqZ2if8Xb: "221_sparky",
+  GsM4qD0Eyn: "601_kixx",
+  cTwN6G1eYO: "505_ploot",
+  r9KyhbKc_u: "540_phoon",
+  yNmSKoU26Y: "151_babyfier",
+  ZqEDaY6_Er: "177_clip",
+  xmzZ4eyuTw: "360_drowsy",
+  u3I6_pauoL: "609_heat",
+  J1DJdOA5jD: "520_cannonball",
 };
 
 export function cardIdForSlug(slug: string): string | undefined {

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
+import CardFacts from "@/components/CardFacts";
 import Celebration from "@/components/Celebration";
 import { getCard, TOTAL_CARDS } from "@/lib/cards";
 import { getPlayerKey } from "@/lib/player-session";
@@ -39,18 +40,20 @@ export default async function FoundPage({ params, searchParams }: PageProps<"/fo
             height={320}
             sizes="16rem"
             priority
-            className="aspect-square w-64 motion-safe:animate-rise"
+            className="aspect-square w-64 object-contain motion-safe:animate-rise"
           />
           <h1 className="font-display text-3xl leading-tight text-moon">
             You already found {card.name}
           </h1>
+          <CardFacts card={card} />
           <p className="rounded-full border border-stitch/40 bg-dusk/60 px-5 py-1.5 font-display text-xl text-stitch">
             {player.foundCount} / {TOTAL_CARDS}
           </p>
         </>
       )}
       <Link
-        href="/"
+        // A fresh capture flips its card over on the home page.
+        href={r === "new" ? `/?flip=${card.id}` : "/"}
         className="rounded-full bg-pumpkin px-6 py-3 font-display text-lg text-night motion-safe:animate-rise"
         style={{ animationDelay: r === "new" ? "700ms" : "150ms" }}
       >

@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Image from "next/image";
 import confetti from "canvas-confetti";
+import CardFacts from "@/components/CardFacts";
 import type { Card } from "@/lib/cards";
 
 // Theme colors from globals.css: stitch, pumpkin, hibiscus, moon, mist.
@@ -37,7 +38,7 @@ export default function Celebration({
 
       if (!isFinale) return;
 
-      // Hibiscus cannons from both sides for the last Stitch.
+      // Hibiscus cannons from both sides for the last experiment.
       const hibiscus = confetti.shapeFromText({ text: "🌺", scalar: 2 });
       const end = Date.now() + FINALE_DURATION_MS;
       const fire = () => {
@@ -77,21 +78,43 @@ export default function Celebration({
         height={320}
         sizes="16rem"
         priority
-        className="aspect-square w-64 drop-shadow-[0_0_24px_rgb(63_196_214/0.45)] motion-safe:animate-pop-wiggle"
+        className="aspect-square w-64 object-contain drop-shadow-[0_0_24px_rgb(63_196_214/0.45)] motion-safe:animate-pop-wiggle"
       />
       <h1
         className="font-display text-3xl leading-tight text-moon motion-safe:animate-rise"
         style={{ animationDelay: "300ms" }}
       >
-        {isFinale ? "You found every Stitch!" : `You found ${card.name}!`}
+        {isFinale ? "You found every experiment!" : `You found ${card.name}!`}
       </h1>
       {isFinale && (
         <p
-          className="max-w-xs text-mist italic motion-safe:animate-rise"
-          style={{ animationDelay: "450ms" }}
+          className="-mt-3 font-display text-xl text-stitch motion-safe:animate-rise"
+          style={{ animationDelay: "350ms" }}
         >
-          Ohana means family. Family means nobody gets left behind.
+          Last one: {card.name}
         </p>
+      )}
+      <CardFacts
+        card={card}
+        className="motion-safe:animate-rise"
+        style={{ animationDelay: "400ms" }}
+      />
+      {isFinale && (
+        <>
+          <p
+            className="max-w-xs text-mist italic motion-safe:animate-rise"
+            style={{ animationDelay: "450ms" }}
+          >
+            &lsquo;Ohana means family. Family means nobody gets left behind.
+          </p>
+          <p
+            className="max-w-xs text-mist italic motion-safe:animate-rise"
+            style={{ animationDelay: "450ms" }}
+          >
+            Thanks for helping us find all of the escaped experiments and
+            finding them true homes where they can be themselves!
+          </p>
+        </>
       )}
       <p
         className="rounded-full border border-stitch/40 bg-dusk/60 px-5 py-1.5 font-display text-xl text-stitch motion-safe:animate-pop"
@@ -99,6 +122,15 @@ export default function Celebration({
       >
         {foundCount} / {total}
       </p>
+      {isFinale && (
+        <p
+          className="max-w-xs rounded-2xl border-2 border-hibiscus bg-hibiscus/15 px-5 py-3 font-display text-lg leading-snug text-moon motion-safe:animate-pop"
+          style={{ animationDelay: "650ms" }}
+        >
+          Go find Stephan or Joy and show them this screen to let them know you
+          found them all!
+        </p>
+      )}
     </>
   );
 }

@@ -7,22 +7,95 @@ export type Card = {
   name: string;
   image: string;
   hint?: string;
+  home: string;
+  power: string;
 };
 
-// Placeholder content; final images, names and hints land in milestone 9.
 export const CARDS: Card[] = [
-  { id: "classic", name: "Experiment 626", image: "/stitch/classic.png", hint: "Where the snacks live" },
-  { id: "surfer", name: "Surfer Stitch", image: "/stitch/surfer.png", hint: "Catching a wave near the tub" },
-  { id: "hula", name: "Hula Stitch", image: "/stitch/hula.png" },
-  { id: "elvis", name: "Elvis Stitch", image: "/stitch/elvis.png", hint: "Near something that plays music" },
-  { id: "pumpkin", name: "Pumpkin Stitch", image: "/stitch/pumpkin.png" },
-  { id: "vampire", name: "Vampire Stitch", image: "/stitch/vampire.png", hint: "Hates daylight" },
-  { id: "ghost", name: "Ghost Stitch", image: "/stitch/ghost.png" },
-  { id: "mummy", name: "Mummy Stitch", image: "/stitch/mummy.png", hint: "All wrapped up" },
-  { id: "witch", name: "Witch Stitch", image: "/stitch/witch.png" },
-  { id: "ukulele", name: "Ukulele Stitch", image: "/stitch/ukulele.png" },
-  { id: "sleepy", name: "Sleepy Stitch", image: "/stitch/sleepy.png", hint: "Somewhere cozy" },
-  { id: "angel", name: "Angel", image: "/stitch/angel.png" },
+  {
+    id: "626_stitch",
+    name: "Experiment 626 Stitch",
+    image: "/stitch/626_Stitch.png",
+    power: "Indestructible, super-intelligent, and incredibly strong",
+    home: "With Lilo and her 'ohana",
+  },
+  {
+    id: "624_angel",
+    name: "Experiment 624 Angel",
+    image: "/stitch/624_Angel.webp",
+    power: "Sings a siren song that turns good experiments bad",
+    home: "Intergalatic singing sensation",
+  },
+  {
+    id: "625_reuben",
+    name: "Experiment 625 Reuben",
+    image: "/stitch/625_Reuben.webp",
+    power: "All the same powers as Stitch",
+    home: "Making sandwiches as Gantu's galley officer",
+  },
+  {
+    id: "221_sparky",
+    name: "Experiment 221 Sparky",
+    image: "/stitch/221_Sparky.webp",
+    power: "Mischievous and supercharged with electricity",
+    home: "Powering the Kilauea Lighthouse",
+  },
+  {
+    id: "601_kixx",
+    name: "Experiment 601 Kixx",
+    image: "/stitch/601_Kixx.webp",
+    power: "Kickboxing and wrestling",
+    home: "Starring in Kickboxing with Kixx workout videos",
+  },
+  {
+    id: "505_ploot",
+    name: "Experiment 505 Ploot",
+    image: "/stitch/505_Ploot.webp",
+    power: "Eats trash and turns it into toxic sludge",
+    home: "Cleaning up the beach",
+  },
+  {
+    id: "540_phoon",
+    name: "Experiment 540 Phoon",
+    image: "/stitch/540_Phoon.webp",
+    power: "Creates typhoon-like winds",
+    home: "Making wind for windsurfers at the beach",
+  },
+  {
+    id: "151_babyfier",
+    name: "Experiment 151 Babyfier",
+    image: "/stitch/151_Babyfier.webp",
+    power: "Turns people back into babies",
+    home: "At the dog shelter helping old dogs get adopted as puppies",
+  },
+  {
+    id: "177_clip",
+    name: "Experiment 177 Clip",
+    image: "/stitch/177_Clip.webp",
+    power: "Eats hair and grows infinitely",
+    home: "At the beauty salon",
+  },
+  {
+    id: "360_drowsy",
+    name: "Experiment 360 Drowsy",
+    image: "/stitch/360_Drowsy.webp",
+    power: "Puts people to sleep",
+    home: "Helping insomniacs get to sleep",
+  },
+  {
+    id: "609_heat",
+    name: "Experiment 609 Heat",
+    image: "/stitch/609_Heat.webp",
+    power: "Fires orange heat lasers from his head",
+    home: "Dehydrated and never given the chance to find a home :(",
+  },
+  {
+    id: "520_cannonball",
+    name: "Experiment 520 Cannonball",
+    image: "/stitch/520_Cannonball.webp",
+    power: "Creates giant waves by doing cannonballs",
+    home: "Making waves for surfers at the beach",
+  },
 ];
 
 export const TOTAL_CARDS = CARDS.length;
