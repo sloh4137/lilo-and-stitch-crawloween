@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Image from "next/image";
 import confetti from "canvas-confetti";
+import CardFacts from "@/components/CardFacts";
 import type { Card } from "@/lib/cards";
 
 // Theme colors from globals.css: stitch, pumpkin, hibiscus, moon, mist.
@@ -85,6 +86,7 @@ export default function Celebration({
       >
         {isFinale ? "You found every Stitch!" : `You found ${card.name}!`}
       </h1>
+      <CardFacts card={card} className="motion-safe:animate-rise" style={{ animationDelay: "400ms" }} />
       {isFinale && (
         <p
           className="max-w-xs text-mist italic motion-safe:animate-rise"
