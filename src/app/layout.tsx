@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Creepster, Lilita_One, Nunito } from "next/font/google";
+import Lightning from "@/components/Lightning";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -34,7 +35,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${nunito.variable} ${lilita.variable} ${creepster.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans">
+        <Lightning />
+        <div aria-hidden className="moon" />
+        {children}
+      </body>
     </html>
   );
 }

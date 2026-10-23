@@ -104,9 +104,166 @@
 body {
   background-color: var(--night);
   background-image:
-    radial-gradient(circle at 85% 8%, rgb(255 244 214 / 0.18) 0 3rem, transparent 3.2rem),
     radial-gradient(ellipse at 50% 120%, rgb(63 196 214 / 0.25), transparent 60%),
     linear-gradient(to bottom, var(--night), var(--dusk));
   background-attachment: fixed;
   color: var(--moon);
+}
+
+/* Full moon behind the page: craters over a lit-from-the-top-left disc. */
+.moon {
+  position: fixed;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: -1;
+  width: 3.5rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 30% 34%, rgb(196 174 128 / 0.75) 0 7%, rgb(226 208 162 / 0.6) 10%, transparent 11.5%),
+    radial-gradient(circle at 63% 58%, rgb(196 174 128 / 0.7) 0 10%, rgb(226 208 162 / 0.55) 13.5%, transparent 15%),
+    radial-gradient(circle at 42% 74%, rgb(196 174 128 / 0.6) 0 5%, rgb(226 208 162 / 0.5) 7.5%, transparent 9%),
+    radial-gradient(circle at 72% 30%, rgb(196 174 128 / 0.55) 0 4%, transparent 6%),
+    radial-gradient(circle at 22% 58%, rgb(196 174 128 / 0.45) 0 3%, transparent 4.5%),
+    /* Darker "seas" give it the familiar face. */
+    radial-gradient(ellipse 34% 26% at 40% 46%, rgb(214 194 148 / 0.55), transparent),
+    radial-gradient(ellipse 22% 30% at 66% 72%, rgb(214 194 148 / 0.45), transparent),
+    radial-gradient(circle at 35% 30%, #fffcef, var(--moon) 45%, #e6d3a3);
+  box-shadow:
+    inset -0.6rem -0.4rem 1rem rgb(42 23 88 / 0.35),
+    0 0 1.5rem 0.25rem rgb(255 244 214 / 0.45),
+    0 0 5rem 1.5rem rgb(255 244 214 / 0.15);
+}
+
+@media (min-width: 40rem) {
+  .moon {
+    top: 1.5rem;
+    right: 8%;
+    width: 6.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .moon {
+    animation: moon-glow 6s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes moon-glow {
+  to {
+    box-shadow:
+      inset -0.6rem -0.4rem 1rem rgb(42 23 88 / 0.35),
+      0 0 2rem 0.5rem rgb(255 244 214 / 0.55),
+      0 0 6rem 2rem rgb(255 244 214 / 0.2);
+  }
+}
+
+/* Lightning: each strike sits dark for most of its cycle, then flickers twice
+   about 0.4s apart. Keep it well under 3 flashes a second. */
+.storm {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.strike {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.strike-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at var(--strike-x) 0%, rgb(63 196 214 / 0.16), transparent 55%);
+}
+
+.strike-bolt {
+  position: absolute;
+  top: 0;
+  left: var(--strike-x);
+  width: auto;
+  height: var(--strike-height);
+  transform: translateX(-50%) scaleX(var(--strike-flip, 1));
+  filter: drop-shadow(0 0 4px var(--stitch)) drop-shadow(0 0 14px rgb(63 196 214 / 0.6));
+}
+
+.strike-left {
+  --strike-x: 10%;
+  --strike-height: 8rem;
+}
+
+.strike-right {
+  --strike-x: 72%;
+  --strike-height: 4.5rem;
+  --strike-flip: -1;
+}
+
+@media (min-width: 40rem) {
+  .strike-left {
+    --strike-x: 14%;
+    --strike-height: 13rem;
+  }
+
+  .strike-right {
+    --strike-x: 68%;
+    --strike-height: 9rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .strike-left {
+    animation: strike-5s 5s linear 1s infinite;
+  }
+
+  /* A different period so the two only line up every 35s. */
+  .strike-right {
+    animation: strike-7s 7s linear 3s infinite;
+  }
+}
+
+/* Both cycles play the same ~0.75s double flicker (peaks ~0.35s apart), so
+   only the dark gap differs. Percentages are of the cycle: retime them if a
+   duration changes, or the flicker itself speeds up. */
+@keyframes strike-5s {
+  0%,
+  84% {
+    opacity: 0;
+  }
+  86.2% {
+    opacity: 0.95;
+  }
+  89.5% {
+    opacity: 0.25;
+  }
+  93.9% {
+    opacity: 0.85;
+  }
+  99.4%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes strike-7s {
+  0%,
+  88.5% {
+    opacity: 0;
+  }
+  90.1% {
+    opacity: 0.95;
+  }
+  92.4% {
+    opacity: 0.25;
+  }
+  95.6% {
+    opacity: 0.85;
+  }
+  99.5%,
+  100% {
+    opacity: 0;
+  }
 }
