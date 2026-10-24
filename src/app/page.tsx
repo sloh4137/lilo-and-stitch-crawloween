@@ -46,8 +46,8 @@ export default async function Home({ searchParams }: PageProps<"/">) {
           </span>
           {/* Fade the bottom of the still into the card so the caption reads. */}
           <figcaption className="absolute inset-x-0 bottom-0 bg-linear-to-t from-night via-night/85 to-transparent px-4 pt-12 pb-3 text-left text-sm text-moon sm:text-base">
-            Dr. Jumba Jookiba&apos;s experiments have escaped! Help us find
-            each one around the house by tapping them with your phone to
+            Dr. Jumba Jookiba&apos;s experiments have escaped at the Castro
+            house! Help us find each one by tapping them with your phone to
             capture them.
           </figcaption>
         </figure>
