@@ -43,7 +43,7 @@ src/actions/players.ts           // 'use server': createPlayer(formData), select
 src/actions/admin.ts             // 'use server': adminLogin(formData), adminLogout(), deletePlayer(nameKey) — each re-checks isAdmin()
 src/components/Celebration.tsx   // client: canvas-confetti + Stitch pop/wiggle animation
 src/app/layout.tsx               // theme: night-sky purple/teal, Hawaiian-spooky fonts, metadata
-src/app/page.tsx                 // server: no cookie/no player → redirect /join; hunt grid + "7 / 12"; "Not you?" switch
+src/app/page.tsx                 // server: no cookie/no player → redirect /join; hunt grid + "7 / 10"; "Not you?" switch
 src/app/join/page.tsx            // server page + client form (useActionState) for the two tabs; honors ?next=
 src/app/f/[slug]/route.ts        // GET: validate slug (404 if bad) → no player → /join?next=/f/slug → claim → redirect /found/[cardId]?r=…
 src/app/found/[cardId]/page.tsx  // server: verify player has found it (else redirect /); renders <Celebration> (r=new) or "Already found"; "Ohana!" finale at total
@@ -84,7 +84,7 @@ Dependencies to add: `firebase-admin`, `canvas-confetti` (+ `@types/canvas-confe
    - `no-player` (stale cookie, e.g. the admin deleted this player) → clear the cookie and 307 to `/join?next=…`.
    - Otherwise → 307 to `/found/<cardId>?r=new|already`.
 3. **Celebration page** (`src/app/found/[cardId]/page.tsx`, server): it checks that the player actually has this card. Without that check, someone could type `/found/3` and get confetti. Then it renders:
-   - `r=new`: `<Celebration>` with confetti and "You found Experiment 626! 5 / 12", or the "Ohana!" finale when `foundCount === total`.
+   - `r=new`: `<Celebration>` with confetti and "You found Experiment 626! 5 / 10", or the "Ohana!" finale when `foundCount === total`.
    - `r=already`: a quieter "Already found".
    - Both link to the hunt page.
 4. **First tap with no name:** the visit to `/join?next=…` happens first. `createPlayer` / `selectPlayer` sets the cookie and redirects back to `/f/<slug>`, then continues from step 2, so the first tap still counts.

@@ -68,7 +68,7 @@ export default async function Home({ searchParams }: PageProps<"/">) {
           </button>
         </form>
       </header>
-      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+      <ul className="grid grid-cols-2 gap-3 md:grid-cols-5">
         {CARDS.map((card) => (
           <HuntCard
             key={card.id}
