@@ -24,7 +24,7 @@ export const CARDS: Card[] = [
     name: "Experiment 624 Angel",
     image: "/stitch/624_Angel.webp",
     power: "Sings a siren song that turns good experiments bad",
-    home: "Intergalatic singing sensation",
+    home: "Intergalactic singing sensation",
   },
   {
     id: "625_reuben",
