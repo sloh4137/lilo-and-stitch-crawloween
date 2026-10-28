@@ -14,9 +14,7 @@ const SLUG_TO_CARD: Record<string, string> = {
   cTwN6G1eYO: "505_ploot",
   r9KyhbKc_u: "540_phoon",
   yNmSKoU26Y: "151_babyfier",
-  ZqEDaY6_Er: "177_clip",
   xmzZ4eyuTw: "360_drowsy",
-  u3I6_pauoL: "609_heat",
   J1DJdOA5jD: "520_cannonball",
 };
 

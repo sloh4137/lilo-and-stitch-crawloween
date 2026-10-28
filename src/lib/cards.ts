@@ -69,25 +69,11 @@ export const CARDS: Card[] = [
     home: "At the dog shelter helping old dogs get adopted as puppies",
   },
   {
-    id: "177_clip",
-    name: "Experiment 177 Clip",
-    image: "/stitch/177_Clip.webp",
-    power: "Eats hair and grows infinitely",
-    home: "At the beauty salon",
-  },
-  {
     id: "360_drowsy",
     name: "Experiment 360 Drowsy",
     image: "/stitch/360_Drowsy.webp",
     power: "Puts people to sleep",
     home: "Helping insomniacs get to sleep",
-  },
-  {
-    id: "609_heat",
-    name: "Experiment 609 Heat",
-    image: "/stitch/609_Heat.webp",
-    power: "Fires orange heat lasers from his head",
-    home: "Dehydrated and never given the chance to find a home :(",
   },
   {
     id: "520_cannonball",
