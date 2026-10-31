@@ -18,6 +18,7 @@ export const CARDS: Card[] = [
     image: "/stitch/626_Stitch.png",
     power: "Indestructible, super-intelligent, and incredibly strong",
     home: "With Lilo and her 'ohana",
+    hint: "Just crash-landed",
   },
   {
     id: "624_angel",
@@ -32,6 +33,7 @@ export const CARDS: Card[] = [
     image: "/stitch/625_Reuben.webp",
     power: "All the same powers as Stitch",
     home: "Making sandwiches as Gantu's galley officer",
+    hint: "Loves a good sandwich",
   },
   {
     id: "221_sparky",
@@ -39,6 +41,7 @@ export const CARDS: Card[] = [
     image: "/stitch/221_Sparky.webp",
     power: "Mischievous and supercharged with electricity",
     home: "Powering the Kilauea Lighthouse",
+    hint: "Finds the most power-hungry electronics",
   },
   {
     id: "601_kixx",
@@ -46,6 +49,7 @@ export const CARDS: Card[] = [
     image: "/stitch/601_Kixx.webp",
     power: "Kickboxing and wrestling",
     home: "Starring in Kickboxing with Kixx workout videos",
+    hint: "Loves to workout",
   },
   {
     id: "505_ploot",
@@ -53,6 +57,7 @@ export const CARDS: Card[] = [
     image: "/stitch/505_Ploot.webp",
     power: "Eats trash and turns it into toxic sludge",
     home: "Cleaning up the beach",
+    hint: "Eats trash and turns it into toxic sludge",
   },
   {
     id: "540_phoon",
@@ -60,6 +65,7 @@ export const CARDS: Card[] = [
     image: "/stitch/540_Phoon.webp",
     power: "Creates typhoon-like winds",
     home: "Making wind for windsurfers at the beach",
+    hint: "Creates typhoon-like winds",
   },
   {
     id: "151_babyfier",
@@ -67,6 +73,7 @@ export const CARDS: Card[] = [
     image: "/stitch/151_Babyfier.webp",
     power: "Turns people back into babies",
     home: "At the dog shelter helping old dogs get adopted as puppies",
+    hint: "Nostalgic for a more innocent time",
   },
   {
     id: "360_drowsy",
@@ -74,6 +81,7 @@ export const CARDS: Card[] = [
     image: "/stitch/360_Drowsy.webp",
     power: "Puts people to sleep",
     home: "Helping insomniacs get to sleep",
+    hint: "Puts people to sleep",
   },
   {
     id: "520_cannonball",
@@ -81,6 +89,7 @@ export const CARDS: Card[] = [
     image: "/stitch/520_Cannonball.webp",
     power: "Creates giant waves by doing cannonballs",
     home: "Making waves for surfers at the beach",
+    hint: "Creates massive waves",
   },
 ];
 
